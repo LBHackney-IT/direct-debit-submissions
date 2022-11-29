@@ -1,5 +1,5 @@
 using BaseListener.Domain;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 
 namespace BaseListener.Factories
 {

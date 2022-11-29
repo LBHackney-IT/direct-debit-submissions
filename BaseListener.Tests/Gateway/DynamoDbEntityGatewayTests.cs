@@ -3,7 +3,7 @@ using AutoFixture;
 using BaseListener.Domain;
 using BaseListener.Factories;
 using BaseListener.Gateway;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 using FluentAssertions;
 using Hackney.Core.Testing.DynamoDb;
 using Hackney.Core.Testing.Shared;

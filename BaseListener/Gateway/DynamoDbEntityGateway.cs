@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.DataModel;
 using BaseListener.Domain;
 using BaseListener.Factories;
 using BaseListener.Gateway.Interfaces;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Logging;
 using System;

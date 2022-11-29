@@ -1,3 +1,4 @@
+using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
 using Amazon.Lambda.TestUtilities;
@@ -44,14 +45,12 @@ namespace BaseListener.Tests.E2ETests.Steps
                 Logger = mockLambdaLogger.Object
             };
 
-            var sqsEvent = _fixture.Build<SQSEvent>()
-                                   .With(x => x.Records, new List<SQSEvent.SQSMessage> { CreateMessage(id) })
-                                   .Create();
+            var apiGatewayProxyRequest = _fixture.Build<APIGatewayProxyRequest>().Create();
 
             Func<Task> func = async () =>
             {
                 var fn = new SqsFunction();
-                await fn.FunctionHandler(sqsEvent, lambdaContext).ConfigureAwait(false);
+                await fn.FunctionHandler(apiGatewayProxyRequest, lambdaContext).ConfigureAwait(false);
             };
 
             _lastException = await Record.ExceptionAsync(func);

@@ -1,6 +1,6 @@
 using Amazon.DynamoDBv2.DataModel;
 using BaseListener.Domain;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 using BaseListener.Infrastructure.Exceptions;
 using FluentAssertions;
 using System;

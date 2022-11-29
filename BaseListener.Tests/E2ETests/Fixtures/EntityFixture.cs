@@ -1,6 +1,6 @@
 using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 using System;
 
 namespace BaseListener.Tests.E2ETests.Fixtures

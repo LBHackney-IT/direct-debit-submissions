@@ -1,16 +1,21 @@
+using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
+using Amazon.SimpleNotificationService.Util;
 using BaseListener.Boundary;
 using BaseListener.Gateway;
 using BaseListener.Gateway.Interfaces;
+using BaseListener.Infrastructure;
 using BaseListener.UseCase;
 using BaseListener.UseCase.Interfaces;
 using Hackney.Core.DynamoDb;
 using Hackney.Core.Logging;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -43,8 +48,14 @@ namespace BaseListener
 
             services.AddHttpClient();
             services.AddScoped<IDoSomethingUseCase, DoSomethingUseCase>();
+            services.AddScoped<IDirectDebitProcessUseCase, DirectDebitProcessUseCase>();
 
             services.AddScoped<IDbEntityGateway, DynamoDbEntityGateway>();
+            services.AddScoped<IHttpApiGateway, HttpApiGateway>();
+
+            services.AddTransient<HttpBaseApi<HttpTransactionApi>, HttpTransactionApi>();
+            services.AddScoped<IHttpApiContext<HttpTransactionApi>, HttpApiContext<HttpTransactionApi>>();
+            services.AddHttpClient("Direct Debit Submission", httpClient => { httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); });
 
             base.ConfigureServices(services);
         }
@@ -54,55 +65,52 @@ namespace BaseListener
         /// This method is called for every Lambda invocation. This method takes in an SQS event object and can be used 
         /// to respond to SQS messages.
         /// </summary>
-        /// <param name="evnt"></param>
+        /// <param name="apiGatewayProxyRequest"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
+        public async Task FunctionHandler(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
         {
+            await ProcessMessageAsync(apiGatewayProxyRequest, context).ConfigureAwait(false);
+
             // Do this in parallel???
-            foreach (var message in evnt.Records)
-            {
-                await ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
+            //foreach (var message in evnt.Records)
+            //{
+            //    await ProcessMessageAsync(message, context).ConfigureAwait(false);
+            //}
         }
 
         /// <summary>
         /// Method called to process every distinct message received.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="apiGatewayProxyRequest"></param>
         /// <param name="context"></param>
         /// <returns></returns>
         [LogCall(LogLevel.Information)]
-        private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
+        private async Task ProcessMessageAsync(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
         {
-            context.Logger.LogLine($"Processing message {message.MessageId}");
+            context.Logger.LogLine($"Processing message {apiGatewayProxyRequest.RequestContext.MessageId}");
 
-            var entityEvent = JsonSerializer.Deserialize<EntityEventSns>(message.Body, _jsonOptions);
+            var eventType = apiGatewayProxyRequest.RequestContext.EventType;
 
-            using (Logger.BeginScope("CorrelationId: {CorrelationId}", entityEvent.CorrelationId))
+            try
             {
-                try
+                IDirectDebitProcessUseCase processor = null;
+                switch (eventType)
                 {
-                    IMessageProcessing processor = null;
-                    switch (entityEvent.EventType)
-                    {
-                        case EventTypes.DoSomethingEvent:
-                            {
-                                processor = ServiceProvider.GetService<IDoSomethingUseCase>();
-                                break;
-                            }
-                        // TODO - Implement other message types here...
-                        default:
-                            throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
-                    }
+                    case EventTypes.DirectDebitCalculationEvent:
+                        {
+                            processor = ServiceProvider.GetService<IDirectDebitProcessUseCase>();
+                            break;
+                        }
+                    default: throw new ArgumentException($"Unknown event type: {eventType} on message id: {apiGatewayProxyRequest.RequestContext.MessageId}");
+                }
 
-                    await processor.ProcessMessageAsync(entityEvent).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, $"Exception processing message id: {message.MessageId}; type: {entityEvent.EventType}; entity id: {entityEvent.EntityId}");
-                    throw; // AWS will handle retry/moving to the dead letter queue
-                }
+                await processor.ProcessExecuteAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"Exception processing message id: {apiGatewayProxyRequest.RequestContext.MessageId}; type: {eventType}; request id: {apiGatewayProxyRequest.RequestContext.RequestId}");
+                throw; // AWS will handle retry/moving to the dead letter queue
             }
         }
     }

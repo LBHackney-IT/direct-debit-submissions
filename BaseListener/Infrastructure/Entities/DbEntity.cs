@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Hackney.Core.DynamoDb.Converters;
 using System;
 
-namespace BaseListener.Infrastructure
+namespace BaseListener.Infrastructure.Entities
 {
     // TODO - Alter if DynamoDb is not required
 

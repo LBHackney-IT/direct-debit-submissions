@@ -1,7 +1,7 @@
 using AutoFixture;
 using BaseListener.Domain;
 using BaseListener.Factories;
-using BaseListener.Infrastructure;
+using BaseListener.Infrastructure.Entities;
 using FluentAssertions;
 using Xunit;
 

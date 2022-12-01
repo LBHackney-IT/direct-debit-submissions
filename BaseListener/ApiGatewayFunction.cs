@@ -28,14 +28,14 @@ namespace BaseListener
     /// Lambda function triggered by an SQS message
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class SqsFunction : BaseFunction
+    public class ApiGatewayFunction : BaseFunction
     {
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
         /// region the Lambda function is executed in.
         /// </summary>
-        public SqsFunction()
+        public ApiGatewayFunction()
         { }
 
         /// <summary>
@@ -52,9 +52,8 @@ namespace BaseListener
 
             services.AddScoped<IDbEntityGateway, DynamoDbEntityGateway>();
             services.AddScoped<IHttpApiGateway, HttpApiGateway>();
+            services.AddTransient<IHttpApiContext, HttpApiContext>();
 
-            services.AddTransient<HttpBaseApi<HttpTransactionApi>, HttpTransactionApi>();
-            services.AddScoped<IHttpApiContext<HttpTransactionApi>, HttpApiContext<HttpTransactionApi>>();
             services.AddHttpClient("Direct Debit Submission", httpClient => { httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); });
 
             base.ConfigureServices(services);
@@ -71,12 +70,6 @@ namespace BaseListener
         public async Task FunctionHandler(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
         {
             await ProcessMessageAsync(apiGatewayProxyRequest, context).ConfigureAwait(false);
-
-            // Do this in parallel???
-            //foreach (var message in evnt.Records)
-            //{
-            //    await ProcessMessageAsync(message, context).ConfigureAwait(false);
-            //}
         }
 
         /// <summary>

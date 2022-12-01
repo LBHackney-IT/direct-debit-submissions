@@ -1,26 +1,24 @@
 using Amazon.Lambda.APIGatewayEvents;
 using BaseListener.Boundary.Response;
 using BaseListener.Gateway.Interfaces;
-using BaseListener.Helpers;
 using BaseListener.Helpers.GeneralModels;
 using BaseListener.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BaseListener.Gateway
 {
     public class HttpApiGateway: IHttpApiGateway
     {
-        private readonly IHttpApiContext<HttpTransactionApi> _httpApiContext;
+        private readonly IHttpApiContext _httpApiContext;
 
-        public HttpApiGateway(IHttpApiContext<HttpTransactionApi> httpApiContext)
+        public HttpApiGateway(IHttpApiContext httpApiContext)
         {
             this._httpApiContext = httpApiContext;
         }
 
-        public async Task<decimal> GetAmount(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<PaginatedResponse<TransactionResponse>> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
             string periodEndDate;
 
@@ -28,11 +26,14 @@ namespace BaseListener.Gateway
 
             apiGatewayProxyRequest.QueryStringParameters.Add(KeyValuePair.Create("PeriodStartDate", DateTime.Parse(periodEndDate).AddYears(-1).ToString()));
 
-            var response = await this._httpApiContext.Resolve.GetAsync<PaginatedResponse<TransactionResponse>>(apiGatewayProxyRequest);
+            var response = await this._httpApiContext.GetAsync<PaginatedResponse<TransactionResponse>>(apiGatewayProxyRequest);
 
-           CalculateDirectDebit directDebit = new CalculateDirectDebit(response.Results);
+            return response;
+        }
 
-           return directDebit.Result;
+        public async Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        {
+            await this._httpApiContext.UpdateAsync(apiGatewayProxyRequest);
         }
     }
 }

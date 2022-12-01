@@ -1,14 +1,11 @@
-using BaseListener.Boundary;
-using BaseListener.Domain;
 using BaseListener.Gateway.Interfaces;
-using BaseListener.Infrastructure.Exceptions;
 using System.Threading.Tasks;
-using System;
 using BaseListener.UseCase.Interfaces;
 using Amazon.Lambda.APIGatewayEvents;
-using System.Collections.Generic;
-using System.Linq;
-using BaseListener.Helpers;
+using System.Text.Json;
+using BaseListener.Boundary.Response;
+using BaseListener.Helpers.GeneralModels;
+using BaseListener.Factories;
 
 namespace BaseListener.UseCase
 {
@@ -23,7 +20,13 @@ namespace BaseListener.UseCase
 
         public async Task ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
-            decimal amount = await _gateway.GetAmount(apiGatewayProxyRequest).ConfigureAwait(false);
+            PaginatedResponse<TransactionResponse> directDebitUpdateRequest = await _gateway.GetAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+
+            apiGatewayProxyRequest.Body = JsonSerializer.Serialize(directDebitUpdateRequest.Results.ToCalculateAmount());
+
+            await _gateway.UpdateAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+
+            //new APIGatewayProxyResponse() { StatusCode = 500, Body = "Internal Server Error" };
         }
     }
 }

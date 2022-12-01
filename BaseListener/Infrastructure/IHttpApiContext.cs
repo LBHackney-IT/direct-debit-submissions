@@ -1,7 +1,12 @@
+using Amazon.Lambda.APIGatewayEvents;
+using System.Threading.Tasks;
+
 namespace BaseListener.Infrastructure
 {
-    public interface IHttpApiContext<TModel> where TModel : class
+    public interface IHttpApiContext
     {
-        public HttpBaseApi<TModel> Resolve { get; }
+        Task<TModel> GetAsync<TModel>(APIGatewayProxyRequest apiGatewayProxyRequest) where TModel : class;
+
+        Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
     }
 }

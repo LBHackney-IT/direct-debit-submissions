@@ -49,7 +49,7 @@ namespace BaseListener.Tests.E2ETests.Steps
 
             Func<Task> func = async () =>
             {
-                var fn = new SqsFunction();
+                var fn = new ApiGatewayFunction();
                 await fn.FunctionHandler(apiGatewayProxyRequest, lambdaContext).ConfigureAwait(false);
             };
 

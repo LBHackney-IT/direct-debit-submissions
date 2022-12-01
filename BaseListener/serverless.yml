@@ -17,7 +17,7 @@ package:
 functions:
   BaseListener:
     name: ${self:service}-${self:provider.stage}
-    handler: BaseListener::BaseListener.SqsFunction::FunctionHandler
+    handler: BaseListener::BaseListener.ApiGatewayFunction::FunctionHandler
     role: lambdaExecutionRole
     environment:
       ### Re-use the same parameter as used by web api applications

@@ -79,7 +79,7 @@ namespace BaseListener
         /// <param name="context"></param>
         /// <returns></returns>
         [LogCall(LogLevel.Information)]
-        private async Task ProcessMessageAsync(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
+        private async Task<APIGatewayProxyResponse> ProcessMessageAsync(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
         {
             context.Logger.LogLine($"Processing message {apiGatewayProxyRequest.RequestContext.MessageId}");
 
@@ -98,7 +98,7 @@ namespace BaseListener
                     default: throw new ArgumentException($"Unknown event type: {eventType} on message id: {apiGatewayProxyRequest.RequestContext.MessageId}");
                 }
 
-                await processor.ProcessExecuteAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+                return await processor.ProcessExecuteAsync(apiGatewayProxyRequest).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

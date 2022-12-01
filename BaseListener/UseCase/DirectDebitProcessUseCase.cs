@@ -6,6 +6,7 @@ using System.Text.Json;
 using BaseListener.Boundary.Response;
 using BaseListener.Helpers.GeneralModels;
 using BaseListener.Factories;
+using System.Net;
 
 namespace BaseListener.UseCase
 {
@@ -18,15 +19,20 @@ namespace BaseListener.UseCase
             _gateway = gateway;
         }
 
-        public async Task ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
-            PaginatedResponse<TransactionResponse> directDebitUpdateRequest = await _gateway.GetAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+            APIGatewayProxyResponse response = await _gateway.GetAsync(apiGatewayProxyRequest).ConfigureAwait(false);
 
-            apiGatewayProxyRequest.Body = JsonSerializer.Serialize(directDebitUpdateRequest.Results.ToCalculateAmount());
+            if (response.StatusCode == (int) HttpStatusCode.OK)
+            {
+                PaginatedResponse<TransactionResponse> model = JsonSerializer.Deserialize<PaginatedResponse<TransactionResponse>>(response.Body);
 
-            await _gateway.UpdateAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+                apiGatewayProxyRequest.Body = JsonSerializer.Serialize(model.Results.ToCalculateAmount());
 
-            //new APIGatewayProxyResponse() { StatusCode = 500, Body = "Internal Server Error" };
+                response = await _gateway.UpdateAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+            }
+
+            return response;
         }
     }
 }

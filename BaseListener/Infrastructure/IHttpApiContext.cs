@@ -5,8 +5,8 @@ namespace BaseListener.Infrastructure
 {
     public interface IHttpApiContext
     {
-        Task<TModel> GetAsync<TModel>(APIGatewayProxyRequest apiGatewayProxyRequest) where TModel : class;
+        Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
 
-        Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
+        Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
     }
 }

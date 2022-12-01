@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BaseListener.Infrastructure
@@ -32,26 +32,30 @@ namespace BaseListener.Infrastructure
             return httpClient;
         }
 
-        public async Task<TModel> GetAsync<TModel>(APIGatewayProxyRequest apiGatewayProxyRequest) where TModel : class
+        public async Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
             var httpClient = this.Setup(apiGatewayProxyRequest, apiGatewayProxyRequest.HttpMethod);
 
-            var result = await httpClient.GetAsync(QueryHelpers.AddQueryString(apiGatewayProxyRequest.Path, apiGatewayProxyRequest.QueryStringParameters));
+            var response = await httpClient.GetAsync(QueryHelpers.AddQueryString(apiGatewayProxyRequest.Path, apiGatewayProxyRequest.QueryStringParameters));
 
-            var contentStream = await result.Content.ReadAsStreamAsync();
+            response.EnsureSuccessStatusCode();
 
-            TModel model = await JsonSerializer.DeserializeAsync<TModel>(contentStream!);
+            var contentStream = await response.Content.ReadAsStringAsync();
 
-            return model!;
+            return new APIGatewayProxyResponse() { StatusCode = (int) response.StatusCode, Body = contentStream };
         }
 
-        public async Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
             var httpClient = this.Setup(apiGatewayProxyRequest, apiGatewayProxyRequest.RequestContext.HttpMethod);
 
-            HttpContent httpContent = new StringContent(apiGatewayProxyRequest.Body);
+            HttpContent httpContent = new StringContent(apiGatewayProxyRequest.Body, Encoding.UTF8, "application/json");
 
-            await httpClient.PutAsync(Path.Combine(apiGatewayProxyRequest.RequestContext.Path, apiGatewayProxyRequest.RequestContext.RouteKey), httpContent);
+            var response = await httpClient.PutAsync(Path.Combine(apiGatewayProxyRequest.RequestContext.Path, apiGatewayProxyRequest.RequestContext.RouteKey), httpContent);
+
+            response.EnsureSuccessStatusCode();
+
+            return new APIGatewayProxyResponse() { StatusCode = (int) response.StatusCode };
         }
     }
 }

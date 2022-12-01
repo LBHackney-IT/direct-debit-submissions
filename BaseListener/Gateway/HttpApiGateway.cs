@@ -1,10 +1,9 @@
 using Amazon.Lambda.APIGatewayEvents;
-using BaseListener.Boundary.Response;
 using BaseListener.Gateway.Interfaces;
-using BaseListener.Helpers.GeneralModels;
 using BaseListener.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BaseListener.Gateway
@@ -18,7 +17,7 @@ namespace BaseListener.Gateway
             this._httpApiContext = httpApiContext;
         }
 
-        public async Task<PaginatedResponse<TransactionResponse>> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
             string periodEndDate;
 
@@ -26,14 +25,14 @@ namespace BaseListener.Gateway
 
             apiGatewayProxyRequest.QueryStringParameters.Add(KeyValuePair.Create("PeriodStartDate", DateTime.Parse(periodEndDate).AddYears(-1).ToString()));
 
-            var response = await this._httpApiContext.GetAsync<PaginatedResponse<TransactionResponse>>(apiGatewayProxyRequest);
+            var response = await this._httpApiContext.GetAsync(apiGatewayProxyRequest);
 
             return response;
         }
 
-        public async Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
-            await this._httpApiContext.UpdateAsync(apiGatewayProxyRequest);
+            return await this._httpApiContext.UpdateAsync(apiGatewayProxyRequest);
         }
     }
 }

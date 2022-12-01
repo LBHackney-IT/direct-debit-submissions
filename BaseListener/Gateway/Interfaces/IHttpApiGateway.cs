@@ -9,8 +9,8 @@ namespace BaseListener.Gateway.Interfaces
 {
     public interface IHttpApiGateway
     {
-        public Task<PaginatedResponse<TransactionResponse>> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
+        public Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
 
-        public Task UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
+        public Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
     }
 }

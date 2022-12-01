@@ -9,6 +9,6 @@ namespace BaseListener.UseCase.Interfaces
 {
     public interface IDirectDebitProcessUseCase
     {
-        Task ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
+        Task<APIGatewayProxyResponse> ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest);
     }
 }

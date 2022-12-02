@@ -1,8 +1,8 @@
 version: "3.2"
 
 services:
-  base-listener:
-    image: base-listener
+  direct-debit-submission:
+    image: direct-debit-submission
     build:
       context: .
       dockerfile: DirectDebitSubmission/Dockerfile
@@ -21,13 +21,14 @@ services:
     links:
       - dynamodb-database
 
-  base-listener-test:
-    image: base-listener-test
+  direct-debit-submission-test:
+    image: direct-debit-submission-test
     build:
       context: .
       dockerfile: DirectDebitSubmission.Tests/Dockerfile
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
+        - SONAR_TOKEN=${SONAR_TOKEN}
     environment:
       - ENVIRONMENT=LocalDevelopment
       # Alter if not using DynamoDb
@@ -36,12 +37,3 @@ services:
       - AWS_REGION=eu-west-2
       - AWS_ACCESS_KEY_ID=local
       - AWS_SECRET_ACCESS_KEY=local
-    links:
-      - dynamodb-database
-    
-  # Alter if not using DynamoDb
-  dynamodb-database:
-    image: amazon/dynamodb-local
-    ports:
-      - 8000:8000
-      

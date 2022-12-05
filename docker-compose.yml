@@ -5,7 +5,7 @@ services:
     image: base-listener
     build:
       context: .
-      dockerfile: BaseListener/Dockerfile
+      dockerfile: DirectDebitSubmissions/Dockerfile
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     ports:
@@ -25,7 +25,7 @@ services:
     image: base-listener-test
     build:
       context: .
-      dockerfile: BaseListener.Tests/Dockerfile
+      dockerfile: DirectDebitSubmissions.Tests/Dockerfile
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     environment:

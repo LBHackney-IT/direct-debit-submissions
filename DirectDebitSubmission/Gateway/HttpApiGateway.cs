@@ -1,5 +1,10 @@
 using Amazon.Lambda.APIGatewayEvents;
+using DirectDebitSubmission.Boundary.Request;
+using DirectDebitSubmission.Boundary.Response;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Factories;
 using DirectDebitSubmission.Gateway.Interfaces;
+using DirectDebitSubmission.Helpers.GeneralModels;
 using DirectDebitSubmission.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -17,22 +22,26 @@ namespace DirectDebitSubmission.Gateway
             this._httpApiContext = httpApiContext;
         }
 
-        public async Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<DirectDebit> GetAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
             string periodEndDate;
 
-            apiGatewayProxyRequest.QueryStringParameters.TryGetValue("PeriodEndDate", out periodEndDate);
+            directDebitApiGatewayProxyRequest.TransactionApiRequest.QueryStringParameters.TryGetValue("PeriodEndDate", out periodEndDate);
 
-            apiGatewayProxyRequest.QueryStringParameters.Add(KeyValuePair.Create("PeriodStartDate", DateTime.Parse(periodEndDate).AddYears(-1).ToString()));
+            directDebitApiGatewayProxyRequest.TransactionApiRequest.QueryStringParameters.Add(KeyValuePair.Create("PeriodStartDate", DateTime.Parse(periodEndDate).AddYears(-1).ToString()));
 
-            var response = await this._httpApiContext.GetAsync(apiGatewayProxyRequest);
+            var response = await this._httpApiContext.GetAsync(directDebitApiGatewayProxyRequest.TransactionApiRequest);
 
-            return response;
+            PaginatedResponse<TransactionResponse> model = JsonSerializer.Deserialize<PaginatedResponse<TransactionResponse>>(response.Body);
+
+            return model.Results.ToDomain();
         }
 
-        public async Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> UpdateAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
-            return await this._httpApiContext.UpdateAsync(apiGatewayProxyRequest);
+            directDebitApiGatewayProxyRequest.DirectDebitApiRequest.Body = JsonSerializer.Serialize(directDebitApiGatewayProxyRequest.Data);
+
+            return await this._httpApiContext.UpdateAsync(directDebitApiGatewayProxyRequest.DirectDebitApiRequest);
         }
     }
 }

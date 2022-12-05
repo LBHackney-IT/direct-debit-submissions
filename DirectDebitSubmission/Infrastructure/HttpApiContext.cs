@@ -17,7 +17,7 @@ namespace DirectDebitSubmission.Infrastructure
             this._httpClientFactory = httpClientFactory;
         }
 
-        private HttpClient Setup(APIGatewayProxyRequest apiGatewayProxyRequest, string method)
+        private HttpClient Setup(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
             string authorization;
 
@@ -27,14 +27,14 @@ namespace DirectDebitSubmission.Infrastructure
 
             httpClient.DefaultRequestHeaders.Add("Authorization", authorization);
 
-            httpClient.BaseAddress = new Uri((method == HttpMethod.Get.ToString()) ? apiGatewayProxyRequest.Resource : apiGatewayProxyRequest.RequestContext.ResourcePath);
+            httpClient.BaseAddress = new Uri(apiGatewayProxyRequest.Resource);
 
             return httpClient;
         }
 
         public async Task<APIGatewayProxyResponse> GetAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
-            var httpClient = this.Setup(apiGatewayProxyRequest, apiGatewayProxyRequest.HttpMethod);
+            var httpClient = this.Setup(apiGatewayProxyRequest);
 
             var response = await httpClient.GetAsync(QueryHelpers.AddQueryString(apiGatewayProxyRequest.Path, apiGatewayProxyRequest.QueryStringParameters));
 
@@ -47,7 +47,7 @@ namespace DirectDebitSubmission.Infrastructure
 
         public async Task<APIGatewayProxyResponse> UpdateAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
         {
-            var httpClient = this.Setup(apiGatewayProxyRequest, apiGatewayProxyRequest.RequestContext.HttpMethod);
+            var httpClient = this.Setup(apiGatewayProxyRequest);
 
             HttpContent httpContent = new StringContent(apiGatewayProxyRequest.Body, Encoding.UTF8, "application/json");
 

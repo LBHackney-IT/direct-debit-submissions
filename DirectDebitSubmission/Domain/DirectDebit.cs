@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DirectDebitSubmission.Boundary.Request
+namespace DirectDebitSubmission.Domain
 {
-    public class DirectDebitUpdateRequest
+    public class DirectDebit
     {
         public decimal? Amount { get; set; }
         public decimal? AdditionalAmount { get; set; }

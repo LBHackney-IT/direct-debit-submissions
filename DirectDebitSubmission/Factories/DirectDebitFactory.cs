@@ -1,13 +1,13 @@
-using DirectDebitSubmission.Boundary.Request;
 using DirectDebitSubmission.Boundary.Response;
+using DirectDebitSubmission.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DirectDebitSubmission.Factories
 {
-    public static class DirectDebitCalculateFactory
+    public static class DirectDebitFactory
     {
-        public static DirectDebitUpdateRequest ToCalculateAmount(this IEnumerable<TransactionResponse> source)
+        public static DirectDebit ToDomain(this IEnumerable<TransactionResponse> source)
         {
             var data = source.Select(k => new { k.PaidAmount, k.HousingBenefitAmount, k.FinancialMonth }).GroupBy(x => new { x.FinancialMonth }, (key, group) => new
             {
@@ -20,7 +20,7 @@ namespace DirectDebitSubmission.Factories
             var paidAmount = data.Sum(x => x.paidAmount);
             var countMonth = data.Count();
 
-            return new DirectDebitUpdateRequest() { Amount = (paidAmount - hbAmount) / countMonth };
+            return new DirectDebit() { Amount = (paidAmount - hbAmount) / countMonth };
         }
     }
 }

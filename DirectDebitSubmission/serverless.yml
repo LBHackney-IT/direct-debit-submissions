@@ -17,7 +17,7 @@ package:
 functions:
   DirectDebitSubmission:
     name: ${self:service}-${self:provider.stage}
-    handler: DirectDebitSubmission::DirectDebitSubmission.ApiGatewayFunction::FunctionHandler
+    handler: DirectDebitSubmission::DirectDebitSubmission.DirectDebitSubmissionFunction::FunctionHandler
     role: lambdaExecutionRole
     environment:
       ### Re-use the same parameter as used by web api applications

@@ -3,7 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
 using Amazon.Lambda.TestUtilities;
 using AutoFixture;
-using DirectDebitSubmission.Boundary;
+using DirectDebitSubmission.Boundary.Request;
 using DirectDebitSubmission.Infrastructure;
 using Moq;
 using System;
@@ -23,20 +23,6 @@ namespace DirectDebitSubmission.Tests.E2ETests.Steps
         public BaseSteps()
         { }
 
-        protected SQSEvent.SQSMessage CreateMessage(Guid personId, string eventType = EventTypes.DoSomethingEvent)
-        {
-            var personSns = _fixture.Build<EntityEventSns>()
-                                    .With(x => x.EntityId, personId)
-                                    .With(x => x.EventType, eventType)
-                                    .Create();
-
-            var msgBody = JsonSerializer.Serialize(personSns, _jsonOptions);
-            return _fixture.Build<SQSEvent.SQSMessage>()
-                           .With(x => x.Body, msgBody)
-                           .With(x => x.MessageAttributes, new Dictionary<string, SQSEvent.MessageAttribute>())
-                           .Create();
-        }
-
         protected async Task TriggerFunction(Guid id)
         {
             var mockLambdaLogger = new Mock<ILambdaLogger>();
@@ -45,11 +31,11 @@ namespace DirectDebitSubmission.Tests.E2ETests.Steps
                 Logger = mockLambdaLogger.Object
             };
 
-            var apiGatewayProxyRequest = _fixture.Build<APIGatewayProxyRequest>().Create();
+            var apiGatewayProxyRequest = _fixture.Build<DirectDebitApiGatewayProxyRequest>().Create();
 
             Func<Task> func = async () =>
             {
-                var fn = new ApiGatewayFunction();
+                var fn = new DirectDebitSubmissionFunction();
                 await fn.FunctionHandler(apiGatewayProxyRequest, lambdaContext).ConfigureAwait(false);
             };
 

@@ -7,6 +7,8 @@ using DirectDebitSubmission.Boundary.Response;
 using DirectDebitSubmission.Helpers.GeneralModels;
 using DirectDebitSubmission.Factories;
 using System.Net;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Boundary.Request;
 
 namespace DirectDebitSubmission.UseCase
 {
@@ -19,20 +21,11 @@ namespace DirectDebitSubmission.UseCase
             _gateway = gateway;
         }
 
-        public async Task<APIGatewayProxyResponse> ProcessExecuteAsync(APIGatewayProxyRequest apiGatewayProxyRequest)
+        public async Task<APIGatewayProxyResponse> ProcessExecuteAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
-            APIGatewayProxyResponse response = await _gateway.GetAsync(apiGatewayProxyRequest).ConfigureAwait(false);
+            directDebitApiGatewayProxyRequest.Data = await _gateway.GetAsync(directDebitApiGatewayProxyRequest).ConfigureAwait(false);
 
-            if (response.StatusCode == (int) HttpStatusCode.OK)
-            {
-                PaginatedResponse<TransactionResponse> model = JsonSerializer.Deserialize<PaginatedResponse<TransactionResponse>>(response.Body);
-
-                apiGatewayProxyRequest.Body = JsonSerializer.Serialize(model.Results.ToCalculateAmount());
-
-                response = await _gateway.UpdateAsync(apiGatewayProxyRequest).ConfigureAwait(false);
-            }
-
-            return response;
+            return await _gateway.UpdateAsync(directDebitApiGatewayProxyRequest).ConfigureAwait(false);
         }
     }
 }

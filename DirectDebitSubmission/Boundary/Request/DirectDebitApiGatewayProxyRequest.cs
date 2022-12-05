@@ -1,5 +1,6 @@
 using Amazon.Lambda.APIGatewayEvents;
 using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Factories;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -13,6 +14,8 @@ namespace DirectDebitSubmission.Boundary.Request
         [JsonPropertyName("directdebitapirequest")]
         public APIGatewayProxyRequest DirectDebitApiRequest { get; set; }
 
-        public DirectDebit Data { get; set; }
+        public IEnumerable<Transaction> Data { get; set; }
+
+        public DirectDebit DirectDebit => this.Data?.ToDomain();
     }
 }

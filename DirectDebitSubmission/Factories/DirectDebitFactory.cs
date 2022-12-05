@@ -1,5 +1,5 @@
-using DirectDebitSubmission.Boundary.Response;
 using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Infrastructure.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +7,7 @@ namespace DirectDebitSubmission.Factories
 {
     public static class DirectDebitFactory
     {
-        public static DirectDebit ToDomain(this IEnumerable<TransactionResponse> source)
+        public static DirectDebit ToDomain(this IEnumerable<Transaction> source)
         {
             var data = source.Select(k => new { k.PaidAmount, k.HousingBenefitAmount, k.FinancialMonth }).GroupBy(x => new { x.FinancialMonth }, (key, group) => new
             {

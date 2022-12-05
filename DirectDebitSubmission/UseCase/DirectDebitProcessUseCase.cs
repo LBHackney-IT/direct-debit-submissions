@@ -2,12 +2,6 @@ using DirectDebitSubmission.Gateway.Interfaces;
 using System.Threading.Tasks;
 using DirectDebitSubmission.UseCase.Interfaces;
 using Amazon.Lambda.APIGatewayEvents;
-using System.Text.Json;
-using DirectDebitSubmission.Boundary.Response;
-using DirectDebitSubmission.Helpers.GeneralModels;
-using DirectDebitSubmission.Factories;
-using System.Net;
-using DirectDebitSubmission.Domain;
 using DirectDebitSubmission.Boundary.Request;
 
 namespace DirectDebitSubmission.UseCase

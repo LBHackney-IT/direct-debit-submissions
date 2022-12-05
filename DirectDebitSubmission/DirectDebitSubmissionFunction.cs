@@ -80,6 +80,7 @@ namespace DirectDebitSubmission
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"Exception processing message : {ex.Message}");
+                throw;
             }
         }
     }

@@ -4,8 +4,8 @@ using DirectDebitSubmission.Boundary.Response;
 using DirectDebitSubmission.Domain;
 using DirectDebitSubmission.Factories;
 using DirectDebitSubmission.Gateway.Interfaces;
-using DirectDebitSubmission.Helpers.GeneralModels;
 using DirectDebitSubmission.Infrastructure;
+using DirectDebitSubmission.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -22,7 +22,7 @@ namespace DirectDebitSubmission.Gateway
             this._httpApiContext = httpApiContext;
         }
 
-        public async Task<DirectDebit> GetAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
+        public async Task<IEnumerable<Transaction>> GetAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
             string periodEndDate;
 
@@ -32,14 +32,14 @@ namespace DirectDebitSubmission.Gateway
 
             var response = await this._httpApiContext.GetAsync(directDebitApiGatewayProxyRequest.TransactionApiRequest);
 
-            PaginatedResponse<TransactionResponse> model = JsonSerializer.Deserialize<PaginatedResponse<TransactionResponse>>(response.Body);
+            ApiResponse<TransactionEntity> result = JsonSerializer.Deserialize<ApiResponse<TransactionEntity>>(response.Body);
 
-            return model.Results.ToDomain();
+            return result.Results.ToDomain();
         }
 
         public async Task<APIGatewayProxyResponse> UpdateAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
-            directDebitApiGatewayProxyRequest.DirectDebitApiRequest.Body = JsonSerializer.Serialize(directDebitApiGatewayProxyRequest.Data);
+            directDebitApiGatewayProxyRequest.DirectDebitApiRequest.Body = JsonSerializer.Serialize(directDebitApiGatewayProxyRequest.DirectDebit);
 
             return await this._httpApiContext.UpdateAsync(directDebitApiGatewayProxyRequest.DirectDebitApiRequest);
         }

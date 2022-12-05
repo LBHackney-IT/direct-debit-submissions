@@ -1,9 +1,9 @@
-using System;
 using System.Text.Json.Serialization;
+using System;
 
-namespace DirectDebitSubmission.Boundary.Response
+namespace DirectDebitSubmission.Infrastructure.Entities
 {
-    public class TransactionResponse
+    public class TransactionEntity
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }

@@ -81,41 +81,6 @@ namespace DirectDebitSubmission
             {
                 Logger.LogError(ex, $"Exception processing message : {ex.Message}");
             }
-         }
-
-        ///// <summary>
-        ///// Method called to process every distinct message received.
-        ///// </summary>
-        ///// <param name="apiGatewayProxyRequest"></param>
-        ///// <param name="context"></param>
-        ///// <returns></returns>
-        //[LogCall(LogLevel.Information)]
-        //private async Task<APIGatewayProxyResponse> ProcessMessageAsync(APIGatewayProxyRequest apiGatewayProxyRequest, ILambdaContext context)
-        //{
-        //    context.Logger.LogLine($"Processing message {apiGatewayProxyRequest.RequestContext.MessageId}");
-
-        //    var eventType = apiGatewayProxyRequest.RequestContext.EventType;
-
-        //    try
-        //    {
-        //        IDirectDebitProcessUseCase processor = null;
-        //        switch (eventType)
-        //        {
-        //            case EventTypes.DirectDebitCalculationEvent:
-        //                {
-        //                    processor = ServiceProvider.GetService<IDirectDebitProcessUseCase>();
-        //                    break;
-        //                }
-        //            default: throw new ArgumentException($"Unknown event type: {eventType} on message id: {apiGatewayProxyRequest.RequestContext.MessageId}");
-        //        }
-
-        //        return await processor.ProcessExecuteAsync(apiGatewayProxyRequest).ConfigureAwait(false);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.LogError(ex, $"Exception processing message id: {apiGatewayProxyRequest.RequestContext.MessageId}; type: {eventType}; request id: {apiGatewayProxyRequest.RequestContext.RequestId}");
-        //        throw; // AWS will handle retry/moving to the dead letter queue
-        //    }
-        //}
+        }
     }
 }

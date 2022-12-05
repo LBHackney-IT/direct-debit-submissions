@@ -4,9 +4,21 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0
 ENV DOTNET_CLI_TELEMETRY_OPTOUT='true'
 
 ENV DynamoDb_LocalMode='true'
+
 ARG LBHPACKAGESTOKEN
 ENV LBHPACKAGESTOKEN=$LBHPACKAGESTOKEN
+
+ARG SONAR_TOKEN
+ENV SONAR_TOKEN=$SONAR_TOKEN
+
 WORKDIR /app
+
+# Enable SonarCloud
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+RUN dotnet tool install --global dotnet-sonarscanner
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+RUN dotnet sonarscanner begin /k:"LBHackney-IT_direct-debit-submissions" /o:"lbhackney-it" /d:sonar.host.url=https://sonarcloud.io /d:sonar.login="${SONAR_TOKEN}"
 
 # Copy csproj and restore as distinct layers
 COPY ./DirectDebitSubmissions.sln ./

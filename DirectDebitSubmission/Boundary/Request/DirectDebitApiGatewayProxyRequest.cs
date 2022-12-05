@@ -15,7 +15,5 @@ namespace DirectDebitSubmission.Boundary.Request
         public APIGatewayProxyRequest DirectDebitApiRequest { get; set; }
 
         public IEnumerable<Transaction> Data { get; set; }
-
-        public DirectDebit DirectDebit => this.Data?.ToDomain();
     }
 }

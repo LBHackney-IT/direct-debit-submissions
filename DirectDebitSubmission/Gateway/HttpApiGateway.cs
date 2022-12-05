@@ -34,12 +34,12 @@ namespace DirectDebitSubmission.Gateway
 
             ApiResponse<TransactionEntity> result = JsonSerializer.Deserialize<ApiResponse<TransactionEntity>>(response.Body);
 
-            return result.Results.ToDomain();
+            return result.Results?.ToDomain();
         }
 
         public async Task<APIGatewayProxyResponse> UpdateAsync(DirectDebitApiGatewayProxyRequest directDebitApiGatewayProxyRequest)
         {
-            directDebitApiGatewayProxyRequest.DirectDebitApiRequest.Body = JsonSerializer.Serialize(directDebitApiGatewayProxyRequest.DirectDebit);
+            directDebitApiGatewayProxyRequest.DirectDebitApiRequest.Body = JsonSerializer.Serialize(directDebitApiGatewayProxyRequest.Data?.ToDomain());
 
             return await this._httpApiContext.UpdateAsync(directDebitApiGatewayProxyRequest.DirectDebitApiRequest);
         }

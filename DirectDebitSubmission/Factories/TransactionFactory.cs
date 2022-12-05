@@ -18,7 +18,6 @@ namespace DirectDebitSubmission.Factories
             FinancialYear = entity.FinancialYear,
             HousingBenefitAmount = entity.HousingBenefitAmount,
             PaidAmount = entity.PaidAmount,
-            
         };
 
         public static IEnumerable<Transaction> ToDomain(this IEnumerable<TransactionEntity> databaseEntity)

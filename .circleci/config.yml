@@ -105,11 +105,11 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: build
+          name: build and test
           command: docker-compose build direct-debit-submission-test
-      - run:
-          name: Run tests
-          command: docker-compose run direct-debit-submission-test
+      #- run:
+      #    name: Run tests
+      #    command: docker-compose run direct-debit-submission-test
   assume-role-development:
     executor: docker-python
     steps:

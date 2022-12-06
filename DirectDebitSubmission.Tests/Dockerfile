@@ -39,6 +39,6 @@ RUN dotnet build -c debug -o out DirectDebitSubmission.Tests/DirectDebitSubmissi
 RUN dotnet test ./DirectDebitSubmission.Tests/DirectDebitSubmission.Tests.csproj --collect:"XPlat Code Coverage" --results-directory ./coverage
 
 ## Create the code coverage file in sonarqube format using the cobertura file generated from the dotnet test command
-#RUN reportgenerator "-reports:./coverage/*/coverage.cobertura.xml" "-targetdir:coverage" "-reporttypes:SonarQube"
+RUN reportgenerator "-reports:./coverage/*/coverage.cobertura.xml" "-targetdir:coverage" "-reporttypes:SonarQube"
 
 RUN dotnet sonarscanner end /d:sonar.login="${SONAR_TOKEN}"

@@ -63,48 +63,5 @@ namespace BaseListener.Tests.Gateway
                                  .Create();
             return entity;
         }
-
-        [Fact]
-        public async Task GetEntityAsyncTestReturnsRecord()
-        {
-            var domainEntity = ConstructDomainEntity();
-            await InsertDatatoDynamoDB(domainEntity).ConfigureAwait(false);
-
-            var result = await _classUnderTest.GetEntityAsync(domainEntity.Id).ConfigureAwait(false);
-
-            result.Should().BeEquivalentTo(domainEntity, (e) => e.Excluding(y => y.VersionNumber));
-            result.VersionNumber.Should().Be(0);
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for id {domainEntity.Id}", Times.Once());
-        }
-
-        [Fact]
-        public async Task GetEntityAsyncTestReturnsNullWhenNotFound()
-        {
-            var id = Guid.NewGuid();
-            var result = await _classUnderTest.GetEntityAsync(id).ConfigureAwait(false);
-
-            result.Should().BeNull();
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for id {id}", Times.Once());
-        }
-
-        [Fact]
-        public async Task SaveEntityAsyncTestUpdatesDatabase()
-        {
-            var domainEntity = ConstructDomainEntity();
-            await InsertDatatoDynamoDB(domainEntity).ConfigureAwait(false);
-
-            domainEntity.Name = "New name";
-            domainEntity.Description = "New description";
-            domainEntity.VersionNumber = 0;
-            await _classUnderTest.SaveEntityAsync(domainEntity).ConfigureAwait(false);
-
-            var updatedInDB = await DynamoDb.LoadAsync<DbEntity>(domainEntity.Id).ConfigureAwait(false);
-            updatedInDB.ToDomain().Should().BeEquivalentTo(domainEntity, (e) => e.Excluding(y => y.VersionNumber));
-            updatedInDB.VersionNumber.Should().Be(domainEntity.VersionNumber + 1);
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.SaveAsync for id {domainEntity.Id}", Times.Once());
-        }
     }
 }

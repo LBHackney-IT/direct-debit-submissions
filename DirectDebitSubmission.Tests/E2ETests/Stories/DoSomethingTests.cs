@@ -11,7 +11,7 @@ namespace DirectDebitSubmission.Tests.E2ETests.Stories
         AsA = "SQS Entity Listener",
         IWant = "a function to process the DoSomething message",
         SoThat = "The correct details are set on the entity")]
-   //[Collection("AppTest collection")]
+    [Collection("AppTest collection")]
     public class DoSomethingTests : IDisposable
     {
         private readonly IDynamoDbFixture _dbFixture;
@@ -44,25 +44,5 @@ namespace DirectDebitSubmission.Tests.E2ETests.Stories
                 _disposed = true;
             }
         }
-
-        //[Fact]
-        //public void ListenerUpdatesTheEntity()
-        //{
-        //    var id = Guid.NewGuid();
-        //    this.Given(g => _entityFixture.GivenAnEntityAlreadyExists(id))
-        //        .When(w => _steps.WhenTheFunctionIsTriggered(id))
-        //        .Then(t => _steps.ThenTheEntityIsUpdated(_entityFixture.DbEntity, _dbFixture.DynamoDbContext))
-        //        .BDDfy();
-        //}
-
-        //[Fact]
-        //public void EntityNotFound()
-        //{
-        //    var id = Guid.NewGuid();
-        //    this.Given(g => _entityFixture.GivenAnEntityDoesNotExist(id))
-        //        .When(w => _steps.WhenTheFunctionIsTriggered(id))
-        //        .Then(t => _steps.ThenAnEntityNotFoundExceptionIsThrown(id))
-        //        .BDDfy();
-        //}
     }
 }

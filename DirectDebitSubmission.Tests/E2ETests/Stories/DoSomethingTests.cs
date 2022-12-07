@@ -11,7 +11,7 @@ namespace DirectDebitSubmission.Tests.E2ETests.Stories
         AsA = "SQS Entity Listener",
         IWant = "a function to process the DoSomething message",
         SoThat = "The correct details are set on the entity")]
-    [Collection("AppTest collection")]
+   //[Collection("AppTest collection")]
     public class DoSomethingTests : IDisposable
     {
         private readonly IDynamoDbFixture _dbFixture;

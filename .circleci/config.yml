@@ -105,11 +105,11 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: build
+          name: build and test
           command: docker-compose build base-listener-test
-      - run:
-          name: Run tests
-          command: docker-compose run base-listener-test
+      #- run:
+      #    name: Run tests
+      #    command: docker-compose run base-listener-test
   assume-role-development:
     executor: docker-python
     steps:
@@ -165,7 +165,9 @@ workflows:
       - check-code-formatting:
           context: api-nuget-token-context
       - build-and-test:
-          context: api-nuget-token-context
+          context:
+            - api-nuget-token-context
+            - SonarCloud 
   #    - assume-role-development:
   #        context: api-assume-role-housing-development-context
   #        requires:

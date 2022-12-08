@@ -49,9 +49,23 @@ namespace DirectDebitSubmission.Infrastructure
         {
             var httpClient = this.Setup(apiGatewayProxyRequest);
 
-            HttpContent httpContent = new StringContent(apiGatewayProxyRequest.Body, Encoding.UTF8, "application/json");
+            string routeKey;
 
-            var response = await httpClient.PutAsync(Path.Combine(apiGatewayProxyRequest.RequestContext.Path, apiGatewayProxyRequest.RequestContext.RouteKey), httpContent);
+            apiGatewayProxyRequest.PathParameters.TryGetValue(nameof(routeKey), out routeKey);
+
+            HttpRequestMessage message = new HttpRequestMessage();
+
+            message.Method = new HttpMethod(apiGatewayProxyRequest.HttpMethod);
+
+            message.Content = new StringContent(apiGatewayProxyRequest.Body, Encoding.UTF8, "application/json");
+
+            StringBuilder requestUri = new StringBuilder(apiGatewayProxyRequest.Resource);
+
+            requestUri.Append(Path.Combine(apiGatewayProxyRequest.Path, routeKey));
+
+            message.RequestUri = new Uri(requestUri.ToString());
+
+            var response = await httpClient.SendAsync(message);
 
             response.EnsureSuccessStatusCode();
 

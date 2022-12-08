@@ -167,7 +167,7 @@ namespace DirectDebitSubmission.Tests.Infrastructure
 
             var response = await _httpApiContext.UpdateAsync(apiGatewayProxyRequest);
 
-            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            response.StatusCode.Should().Be((int) HttpStatusCode.OK);
         }
     }
 }

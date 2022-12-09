@@ -4,6 +4,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@3.0.0
   aws-cli: circleci/aws-cli@0.1.9
   aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
+  sonarcloud: sonarsource/sonarcloud@1.0.2
 
 executors:
   docker-python:
@@ -79,13 +80,13 @@ commands:
       - run:
           name: Build lambda
           command: |
-            cd ./BaseListener/
+            cd ./DirectDebitSubmission/
             chmod +x ./build.sh
             ./build.sh
       - run:
           name: Deploy lambda
           command: |
-            cd ./BaseListener/
+            cd ./DirectDebitSubmission/
             sls deploy --stage <<parameters.stage>> --account <<parameters.aws-account>> --conceal
 
 jobs:
@@ -104,12 +105,13 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - sonarcloud/scan
       - run:
           name: build and test
-          command: docker-compose build base-listener-test
+          command: docker-compose build direct-debit-submission-test
       #- run:
       #    name: Run tests
-      #    command: docker-compose run base-listener-test
+      #    command: docker-compose run direct-debit-submission-test
   assume-role-development:
     executor: docker-python
     steps:

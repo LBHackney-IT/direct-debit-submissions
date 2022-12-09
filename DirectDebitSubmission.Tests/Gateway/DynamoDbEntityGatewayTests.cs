@@ -1,9 +1,10 @@
 using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
-using BaseListener.Domain;
-using BaseListener.Factories;
-using BaseListener.Gateway;
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Factories;
+using DirectDebitSubmission.Gateway;
+using DirectDebitSubmission.Infrastructure;
+using DirectDebitSubmission.Tests;
 using FluentAssertions;
 using Hackney.Core.Testing.DynamoDb;
 using Hackney.Core.Testing.Shared;

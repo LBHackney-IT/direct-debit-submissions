@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DirectDebitSubmission.Boundary
 {
@@ -7,6 +8,7 @@ namespace DirectDebitSubmission.Boundary
     /// Suggested model of the event message received by the function
     /// This will of course be dependent on the specific message expected.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class EntityEventSns
     {
         public Guid Id { get; set; }

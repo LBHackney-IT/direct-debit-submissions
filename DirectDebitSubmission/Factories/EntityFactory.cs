@@ -1,7 +1,7 @@
-using BaseListener.Domain;
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Infrastructure.Entities;
 
-namespace BaseListener.Factories
+namespace DirectDebitSubmission.Factories
 {
     public static class EntityFactory
     {

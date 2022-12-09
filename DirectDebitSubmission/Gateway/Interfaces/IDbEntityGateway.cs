@@ -1,8 +1,8 @@
-using BaseListener.Domain;
+using DirectDebitSubmission.Domain;
 using System;
 using System.Threading.Tasks;
 
-namespace BaseListener.Gateway.Interfaces
+namespace DirectDebitSubmission.Gateway.Interfaces
 {
     public interface IDbEntityGateway
     {

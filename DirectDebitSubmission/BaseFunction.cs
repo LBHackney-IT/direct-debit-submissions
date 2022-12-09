@@ -1,7 +1,7 @@
 using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Infrastructure;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json;
 
-namespace BaseListener
+namespace DirectDebitSubmission
 {
     /// <summary>
     /// Base class used for all functions

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 
-namespace BaseListener.Tests
+namespace DirectDebitSubmission.Tests
 {
     // TODO - Remove DynamoDb parts if not required
 

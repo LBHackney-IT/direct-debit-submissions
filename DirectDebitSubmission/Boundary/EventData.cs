@@ -1,4 +1,4 @@
-namespace BaseListener.Boundary
+namespace DirectDebitSubmission.Boundary
 {
     public class EventData
     {

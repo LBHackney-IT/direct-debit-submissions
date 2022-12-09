@@ -1,14 +1,14 @@
 using Amazon.DynamoDBv2.DataModel;
-using BaseListener.Domain;
-using BaseListener.Factories;
-using BaseListener.Gateway.Interfaces;
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Factories;
+using DirectDebitSubmission.Gateway.Interfaces;
+using DirectDebitSubmission.Infrastructure.Entities;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace BaseListener.Gateway
+namespace DirectDebitSubmission.Gateway
 {
     public class DynamoDbEntityGateway : IDbEntityGateway
     {

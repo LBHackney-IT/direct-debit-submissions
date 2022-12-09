@@ -40,12 +40,12 @@ If already installed check if new version is available.
 
 Execute unit tests
 ```
-    cd "BaseListener/test/BaseListener.Tests"
+    cd "DirectDebitSubmission/test/DirectDebitSubmission.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-    cd "BaseListener/src/BaseListener"
+    cd "DirectDebitSubmission/src/DirectDebitSubmission"
     dotnet lambda deploy-function
 ```

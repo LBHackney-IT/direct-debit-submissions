@@ -1,6 +1,6 @@
 # Base Listener
 
-The BaseListener application provides a template for creating for new Listener applications that is triggered by an AWS SQS message.
+The DirectDebitSubmission application provides a template for creating for new Listener applications that is triggered by an AWS SQS message.
 
 ## Template project assumptions
 These are the default assumptions the template project code makes.
@@ -72,7 +72,7 @@ All code should have appropriate unit tests where possible.
 (Some infrastructure code like the `SQSFunction` and `BaseFunction` cannot, but they should be marked with the `ExcludeFromCodeCoverage`
 attribute so as not to skew the code coverage metrics.)
 
-See the [test project readme](../BaseListener.Tests/ReadMe.md) for more details.
+See the [test project readme](../DirectDebitSubmission.Tests/ReadMe.md) for more details.
 
 ## Docker
 The docker files in the application and test projects, and the `docker-compose.yml` in the root work in exactly the same way as in the base api template.

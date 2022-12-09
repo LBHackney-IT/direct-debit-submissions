@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace BaseListener.Infrastructure
+namespace DirectDebitSubmission.Infrastructure
 {
     public static class JsonOptions
     {

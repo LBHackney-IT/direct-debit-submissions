@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace BaseListener.Tests
+namespace DirectDebitSubmission.Tests
 {
     [CollectionDefinition("AppTest collection", DisableParallelization = true)]
     public class AppTestCollection : ICollectionFixture<MockApplicationFactory>

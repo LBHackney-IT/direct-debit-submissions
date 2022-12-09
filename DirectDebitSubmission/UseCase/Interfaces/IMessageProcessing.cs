@@ -1,7 +1,7 @@
-using BaseListener.Boundary;
+using DirectDebitSubmission.Boundary;
 using System.Threading.Tasks;
 
-namespace BaseListener.UseCase.Interfaces
+namespace DirectDebitSubmission.UseCase.Interfaces
 {
     public interface IMessageProcessing
     {

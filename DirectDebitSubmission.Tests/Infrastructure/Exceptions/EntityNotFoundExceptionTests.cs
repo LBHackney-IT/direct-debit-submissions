@@ -1,10 +1,10 @@
-using BaseListener.Infrastructure.Exceptions;
+using DirectDebitSubmission.Infrastructure.Exceptions;
 using FluentAssertions;
 using System;
 using Xunit;
 
 
-namespace BaseListener.Tests.Infrastructure.Exceptions
+namespace DirectDebitSubmission.Tests.Infrastructure.Exceptions
 {
     public class EntityNotFoundExceptionTests
     {

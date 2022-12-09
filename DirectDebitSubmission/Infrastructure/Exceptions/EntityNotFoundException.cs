@@ -1,6 +1,6 @@
 using System;
 
-namespace BaseListener.Infrastructure.Exceptions
+namespace DirectDebitSubmission.Infrastructure.Exceptions
 {
     public class EntityNotFoundException<T> : Exception where T : class
     {

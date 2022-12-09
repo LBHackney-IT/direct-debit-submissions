@@ -21,22 +21,22 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet sonarscanner begin /k:"LBHackney-IT_direct-debit-submissions" /o:"lbhackney-it" /d:sonar.host.url=https://sonarcloud.io /d:sonar.login="${SONAR_TOKEN}" /d:sonar.coverageReportPaths="coverage/SonarQube.xml"
 
 # Copy csproj and restore as distinct layers
-COPY ./BaseListener.sln ./
-COPY ./BaseListener/BaseListener.csproj ./BaseListener/
-COPY ./BaseListener.Tests/BaseListener.Tests.csproj ./BaseListener.Tests/
+COPY ./DirectDebitSubmission.sln ./
+COPY ./DirectDebitSubmission/DirectDebitSubmission.csproj ./DirectDebitSubmission/
+COPY ./DirectDebitSubmission.Tests/DirectDebitSubmission.Tests.csproj ./DirectDebitSubmission.Tests/
 COPY /NuGet.Config /root/.nuget/NuGet/NuGet.Config
 
-RUN dotnet restore ./BaseListener/BaseListener.csproj
-RUN dotnet restore ./BaseListener.Tests/BaseListener.Tests.csproj
+RUN dotnet restore ./DirectDebitSubmission/DirectDebitSubmission.csproj
+RUN dotnet restore ./DirectDebitSubmission.Tests/DirectDebitSubmission.Tests.csproj
 
 # Copy everything else and build
 COPY . .
 
-RUN dotnet build -c debug -o out BaseListener/BaseListener.csproj
-RUN dotnet build -c debug -o out BaseListener.Tests/BaseListener.Tests.csproj
+RUN dotnet build -c debug -o out DirectDebitSubmission/DirectDebitSubmission.csproj
+RUN dotnet build -c debug -o out DirectDebitSubmission.Tests/DirectDebitSubmission.Tests.csproj
 
 ## Run dotnet test setting the output on the /coverage folder
-RUN dotnet test ./BaseListener.Tests/BaseListener.Tests.csproj --collect:"XPlat Code Coverage" --results-directory ./coverage
+RUN dotnet test ./DirectDebitSubmission.Tests/DirectDebitSubmission.Tests.csproj --collect:"XPlat Code Coverage" --results-directory ./coverage
 
 ## Create the code coverage file in sonarqube format using the cobertura file generated from the dotnet test command
 RUN reportgenerator "-reports:./coverage/*/coverage.cobertura.xml" "-targetdir:coverage" "-reporttypes:SonarQube"

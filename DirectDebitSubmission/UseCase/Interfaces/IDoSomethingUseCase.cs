@@ -1,4 +1,4 @@
-namespace BaseListener.UseCase.Interfaces
+namespace DirectDebitSubmission.UseCase.Interfaces
 {
     public interface IDoSomethingUseCase : IMessageProcessing
     { }

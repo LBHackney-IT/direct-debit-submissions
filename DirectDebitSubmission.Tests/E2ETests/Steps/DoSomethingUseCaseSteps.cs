@@ -1,12 +1,12 @@
 using Amazon.DynamoDBv2.DataModel;
-using BaseListener.Domain;
-using BaseListener.Infrastructure;
-using BaseListener.Infrastructure.Exceptions;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Infrastructure.Entities;
+using DirectDebitSubmission.Infrastructure.Exceptions;
 using FluentAssertions;
 using System;
 using System.Threading.Tasks;
 
-namespace BaseListener.Tests.E2ETests.Steps
+namespace DirectDebitSubmission.Tests.E2ETests.Steps
 {
     public class DoSomethingUseCaseSteps : BaseSteps
     {

@@ -1,13 +1,13 @@
-using BaseListener.Boundary;
-using BaseListener.Domain;
-using BaseListener.Gateway.Interfaces;
-using BaseListener.Infrastructure.Exceptions;
-using BaseListener.UseCase.Interfaces;
+using DirectDebitSubmission.Boundary;
+using DirectDebitSubmission.Domain;
+using DirectDebitSubmission.Gateway.Interfaces;
+using DirectDebitSubmission.Infrastructure.Exceptions;
+using DirectDebitSubmission.UseCase.Interfaces;
 using Hackney.Core.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace BaseListener.UseCase
+namespace DirectDebitSubmission.UseCase
 {
     public class DoSomethingUseCase : IDoSomethingUseCase
     {

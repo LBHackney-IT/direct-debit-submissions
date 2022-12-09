@@ -1,10 +1,10 @@
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Infrastructure;
 using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit;
 
-namespace BaseListener.Tests.Infrastructure
+namespace DirectDebitSubmission.Tests.Infrastructure
 {
     public class JsonOptionsTests
     {

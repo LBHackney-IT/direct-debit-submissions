@@ -31,8 +31,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageReference Include="TestStack.BDDfy" Version="4.3.2" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -42,7 +42,7 @@
   </ItemGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\BaseListener\DirectDebitSubmission.csproj" />
+    <ProjectReference Include="..\DirectDebitSubmission\DirectDebitSubmission.csproj" />
   </ItemGroup>
     
   <ItemGroup>
@@ -50,9 +50,5 @@
       <Content Remove="TestResults\**" />
       <EmbeddedResource Remove="TestResults\**" />
       <None Remove="TestResults\**" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <Folder Include="Factories\" />
   </ItemGroup>
 </Project>

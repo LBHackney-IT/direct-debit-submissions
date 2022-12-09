@@ -1,9 +1,9 @@
 using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
-using BaseListener.Infrastructure;
+using DirectDebitSubmission.Infrastructure.Entities;
 using System;
 
-namespace BaseListener.Tests.E2ETests.Fixtures
+namespace DirectDebitSubmission.Tests.E2ETests.Fixtures
 {
     public class EntityFixture : IDisposable
     {

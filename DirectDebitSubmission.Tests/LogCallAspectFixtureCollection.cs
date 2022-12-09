@@ -1,7 +1,7 @@
 using Hackney.Core.Testing.Shared;
 using Xunit;
 
-namespace BaseListener.Tests
+namespace DirectDebitSubmission.Tests
 {
     [CollectionDefinition("LogCall collection")]
     public class LogCallAspectFixtureCollection : ICollectionFixture<LogCallAspectFixture>

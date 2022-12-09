@@ -1,6 +1,6 @@
 using System;
 
-namespace BaseListener.Boundary
+namespace DirectDebitSubmission.Boundary
 {
     /// <summary>
     /// TODO

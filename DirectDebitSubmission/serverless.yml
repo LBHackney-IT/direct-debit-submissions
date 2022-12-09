@@ -15,9 +15,9 @@ package:
   artifact: ./bin/release/net6.0/base-listener.zip
 
 functions:
-  BaseListener:
+  DirectDebitSubmission:
     name: ${self:service}-${self:provider.stage}
-    handler: BaseListener::BaseListener.SqsFunction::FunctionHandler
+    handler: DirectDebitSubmission::DirectDebitSubmission.DirectDebitSubmissionFunction::FunctionHandler
     role: lambdaExecutionRole
     environment:
       ### Re-use the same parameter as used by web api applications

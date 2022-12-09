@@ -1,6 +1,6 @@
-# BaseListener.Tests
+# DirectDebitSubmission.Tests
 
-This is the test project for the BaseListener application.
+This is the test project for the DirectDebitSubmission application.
 
 ### Technology stack
 
@@ -93,7 +93,7 @@ public DynamoDbEntityGatewayTests(DynamoDbFixture dbTestFixture)
 These use BDDfy to implement tests that are constructed using the gherkin syntax.
 The triggering of the publicly-facing function is not done using a real SQS queue instance, but rather we create an instance of the `SqsFunction` class
 and call the `FunctionHandler()` method directly to simulate how AWS would do this in a deployed environment.
-See the [BaseSteps class](/BaseListener.Tests/E2ETests/Steps/BaseSteps.cs) for more details.
+See the [BaseSteps class](/DirectDebitSubmission.Tests/E2ETests/Steps/BaseSteps.cs) for more details.
 
 
 ## Run coverage

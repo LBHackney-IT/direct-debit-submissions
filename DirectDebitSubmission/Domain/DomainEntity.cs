@@ -1,6 +1,6 @@
 using System;
 
-namespace BaseListener.Domain
+namespace DirectDebitSubmission.Domain
 {
     public class DomainEntity
     {

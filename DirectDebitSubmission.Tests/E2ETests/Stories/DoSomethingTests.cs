@@ -1,11 +1,11 @@
-using BaseListener.Tests.E2ETests.Fixtures;
-using BaseListener.Tests.E2ETests.Steps;
+using DirectDebitSubmission.Tests.E2ETests.Fixtures;
+using DirectDebitSubmission.Tests.E2ETests.Steps;
 using Hackney.Core.Testing.DynamoDb;
 using System;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace BaseListener.Tests.E2ETests.Stories
+namespace DirectDebitSubmission.Tests.E2ETests.Stories
 {
     [Story(
         AsA = "SQS Entity Listener",

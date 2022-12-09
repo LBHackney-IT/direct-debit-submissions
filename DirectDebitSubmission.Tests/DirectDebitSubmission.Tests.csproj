@@ -42,7 +42,7 @@
   </ItemGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\BaseListener\BaseListener.csproj" />
+    <ProjectReference Include="..\BaseListener\DirectDebitSubmission.csproj" />
   </ItemGroup>
     
   <ItemGroup>

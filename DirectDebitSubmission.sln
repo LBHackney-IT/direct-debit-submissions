@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31229.75
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseListener", "BaseListener\BaseListener.csproj", "{D35EB224-4E39-4BFA-AA84-BB82558CB057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectDebitSubmission", "DirectDebitSubmission\DirectDebitSubmission.csproj", "{D35EB224-4E39-4BFA-AA84-BB82558CB057}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseListener.Tests", "BaseListener.Tests\BaseListener.Tests.csproj", "{C633125D-8F93-4BB8-97EE-5D96C93CAF53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectDebitSubmission.Tests", "DirectDebitSubmission.Tests\DirectDebitSubmission.Tests.csproj", "{C633125D-8F93-4BB8-97EE-5D96C93CAF53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3F33E5D4-98CD-4BEA-A03C-2A7050DABF6A}"
 	ProjectSection(SolutionItems) = preProject

@@ -1,8 +1,10 @@
 using DirectDebitSubmission.Domain;
 using DirectDebitSubmission.Infrastructure.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DirectDebitSubmission.Factories
 {
+    [ExcludeFromCodeCoverage]
     public static class EntityFactory
     {
         public static DomainEntity ToDomain(this DbEntity databaseEntity)

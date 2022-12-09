@@ -5,10 +5,12 @@ using DirectDebitSubmission.Infrastructure.Exceptions;
 using DirectDebitSubmission.UseCase.Interfaces;
 using Hackney.Core.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace DirectDebitSubmission.UseCase
 {
+    [ExcludeFromCodeCoverage]
     public class DoSomethingUseCase : IDoSomethingUseCase
     {
         private readonly IDbEntityGateway _gateway;

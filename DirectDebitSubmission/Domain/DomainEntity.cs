@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DirectDebitSubmission.Domain
 {
+    [ExcludeFromCodeCoverage]
     public class DomainEntity
     {
         // TODO - define your domain entity/entities here

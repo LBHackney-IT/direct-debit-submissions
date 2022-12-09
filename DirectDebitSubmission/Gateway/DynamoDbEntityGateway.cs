@@ -6,10 +6,12 @@ using DirectDebitSubmission.Infrastructure.Entities;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace DirectDebitSubmission.Gateway
 {
+    [ExcludeFromCodeCoverage]
     public class DynamoDbEntityGateway : IDbEntityGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;

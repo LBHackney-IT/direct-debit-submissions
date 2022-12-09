@@ -1,6 +1,6 @@
-# LBH Base Listener
+# Direct Debit Submission
 
-Base Listener is a boilerplate template application for creating for new Listener applications for LBH
+Direct Debit Submission is a boilerplate template application for creating for new Listener applications for LBH
 
 ## Stack
 
